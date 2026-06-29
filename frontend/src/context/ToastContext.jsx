@@ -45,9 +45,9 @@ export const ToastProvider = ({ children }) => {
 
                             <button
                                 onClick={() => removeToast(toast.id)}
-                                className="text-slate-400 hover:text-slate-600 p-0.5 transition-colors focus:outline-none"
+                                className="text-slate-400 hover:text-slate-600 p-2 transition-colors focus:outline-none cursor-pointer relative z-10 flex-shrink-0"
                             >
-                                <FaTimes className="text-sm" />
+                                <FaTimes className="text-xs" />
                             </button>
                         </motion.div>
                     ))}
