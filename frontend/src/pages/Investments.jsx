@@ -400,6 +400,7 @@ const Investments = () => {
             </motion.div>
 
             {/* Assets Table */}
+            <motion.div variants={itemVariants} className="premium-card">
                 <div className="flex items-center justify-between mb-5 border-b border-slate-100 pb-3">
                     <h3 className="text-base font-bold text-slate-900 font-sans">
                         Portfolio Holdings
