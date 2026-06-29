@@ -56,9 +56,9 @@ FinSight AI is a production-ready, full-stack financial intelligence application
    Create a `.env` file and specify the variables:
    ```env
    PORT=5000
-   DATABASE_URL=postgres://user:password@localhost:5432/finsight_db # Leave empty for SQLite fallback
+   DATABASE_URL=postgres://user:password@localhost:5432/finsight_db
    JWT_SECRET=your_jwt_secret_key
-   GEMINI_API_KEY=your_gemini_api_key_here # Required for AI features
+   GEMINI_API_KEY=your_gemini_api_key_here
    ```
    *Note: If no `DATABASE_URL` is configured or connection fails, the system automatically spins up a local SQLite database (`database.sqlite`). If no `GEMINI_API_KEY` is provided, the system falls back to simulated AI analysis.*
 4. Start the server:
