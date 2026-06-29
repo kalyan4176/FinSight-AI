@@ -4,13 +4,18 @@ const path = require('path');
 let sequelize;
 
 if (process.env.DATABASE_URL) {
-    console.log('📡 Connecting to PostgreSQL Database over WebSockets...');
+    console.log('📡 Connecting to PostgreSQL Database using standard pg client...');
     
     let pgModule;
     try {
-        pgModule = require('@neondatabase/serverless');
+        pgModule = require('pg');
     } catch (e) {
-        console.warn('⚠️ @neondatabase/serverless not found, using standard pg module.');
+        console.warn('⚠️ Standard pg module not found, trying @neondatabase/serverless.');
+        try {
+            pgModule = require('@neondatabase/serverless');
+        } catch (err) {
+            console.error('❌ No postgres driver module found.');
+        }
     }
 
     sequelize = new Sequelize(process.env.DATABASE_URL, {
