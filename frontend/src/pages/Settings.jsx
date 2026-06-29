@@ -119,7 +119,7 @@ const Settings = () => {
                                 value={formData.name} 
                                 onChange={onChange} 
                                 required
-                                placeholder="John Doe"
+                                placeholder="Enter full name"
                                 className="premium-input"
                                 style={{ paddingLeft: '2.75rem' }}
                             />
@@ -136,7 +136,7 @@ const Settings = () => {
                                 value={formData.mobile} 
                                 onChange={onChange} 
                                 required
-                                placeholder="+91 99999 99999"
+                                placeholder="Enter mobile number"
                                 className="premium-input"
                                 style={{ paddingLeft: '2.75rem' }}
                             />

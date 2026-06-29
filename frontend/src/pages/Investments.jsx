@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaTrash, FaSearch, FaCoins, FaChartLine, FaBriefcase, FaArrowUp, FaArrowDown, FaSpinner } from 'react-icons/fa';
+import { FaPlus, FaTrash, FaSearch, FaCoins, FaChartLine, FaBriefcase, FaArrowUp, FaArrowDown, FaSpinner, FaDownload } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
@@ -140,6 +140,36 @@ const Investments = () => {
             backgroundColor: ['#6366f1', '#3b82f6', '#f59e0b', '#10b981', '#a855f7', '#64748b'],
             borderWidth: 0
         }]
+    };
+
+    const downloadCSV = () => {
+        const headers = ['Symbol', 'Name', 'Category', 'Quantity', 'Buy Price', 'Cost Basis', 'Current Price', 'Current Value', 'Gain/Loss', 'Gain/Loss %'];
+        const csvRows = [headers.join(',')];
+
+        for (const inv of investments) {
+            const row = [
+                `"${inv.symbol}"`,
+                `"${inv.name.replace(/"/g, '""')}"`,
+                `"${inv.category}"`,
+                `"${inv.quantity}"`,
+                `"${inv.buyPrice}"`,
+                `"${(inv.quantity * inv.buyPrice).toFixed(2)}"`,
+                `"${(inv.currentPrice || inv.buyPrice).toFixed(2)}"`,
+                `"${(inv.quantity * (inv.currentPrice || inv.buyPrice)).toFixed(2)}"`,
+                `"${(inv.gainLoss || 0).toFixed(2)}"`,
+                `"${(inv.gainLossPercent || 0).toFixed(2)}%"`
+            ];
+            csvRows.push(row.join(','));
+        }
+
+        const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `investments_report_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const containerVariants = {
@@ -370,10 +400,21 @@ const Investments = () => {
             </motion.div>
 
             {/* Assets Table */}
-            <motion.div variants={itemVariants} className="premium-card">
-                <h3 className="text-base font-bold text-slate-900 mb-5 font-sans border-b border-slate-100 pb-3">
-                    Portfolio Holdings
-                </h3>
+                <div className="flex items-center justify-between mb-5 border-b border-slate-100 pb-3">
+                    <h3 className="text-base font-bold text-slate-900 font-sans">
+                        Portfolio Holdings
+                    </h3>
+                    {investments.length > 0 && (
+                        <button 
+                            onClick={downloadCSV}
+                            className="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95"
+                            title="Download all investments as CSV"
+                        >
+                            <FaDownload className="text-xs" />
+                            <span>Download CSV</span>
+                        </button>
+                    )}
+                </div>
                 {isLoading ? (
                     <div className="py-12 flex justify-center">
                         <FaSpinner className="animate-spin text-primary-600 text-2xl" />

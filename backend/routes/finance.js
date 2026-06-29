@@ -8,7 +8,24 @@ const auth = require('../middleware/auth');
 router.get('/quote/:symbol', auth, async (req, res) => {
     try {
         const symbol = req.params.symbol.toUpperCase();
-        const quote = await getCachedQuote(symbol);
+        const User = require('../models/User');
+        const user = await User.findByPk(req.user.id);
+        const isINR = user && user.currency === 'INR';
+
+        let quote;
+        try {
+            quote = await getCachedQuote(symbol);
+        } catch (e) {
+            if (!symbol.includes('.') && isINR) {
+                try {
+                    quote = await getCachedQuote(`${symbol}.NS`);
+                } catch (nsErr) {
+                    throw e;
+                }
+            } else {
+                throw e;
+            }
+        }
 
         if (!quote) {
             return res.status(404).json({ msg: 'Symbol not found' });

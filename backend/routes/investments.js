@@ -3,12 +3,16 @@ const router = express.Router();
 const { getCachedQuote } = require('../services/financeCache');
 const auth = require('../middleware/auth');
 const Investment = require('../models/Investment');
+const User = require('../models/User');
 
 // @route   GET api/investments
 // @desc    Get all users investments with live market valuations from Yahoo Finance
 // @access  Private
 router.get('/', auth, async (req, res) => {
     try {
+        const user = await User.findByPk(req.user.id);
+        const isINR = user && user.currency === 'INR';
+
         const investments = await Investment.findAll({
             where: { userId: req.user.id }
         });
@@ -17,8 +21,23 @@ router.get('/', auth, async (req, res) => {
         const enrichedInvestments = await Promise.all(investments.map(async (inv) => {
             const rawInv = inv.get({ plain: true });
             try {
-                // Fetch active stock/crypto/gold quote
-                const quote = await getCachedQuote(inv.symbol.toUpperCase());
+                let symbolQuery = inv.symbol.toUpperCase();
+                let quote;
+                try {
+                    quote = await getCachedQuote(symbolQuery);
+                } catch (e) {
+                    if (!symbolQuery.includes('.') && isINR) {
+                        try {
+                            symbolQuery = `${symbolQuery}.NS`;
+                            quote = await getCachedQuote(symbolQuery);
+                        } catch (nsErr) {
+                            throw e; // throw original error if .NS also fails
+                        }
+                    } else {
+                        throw e;
+                    }
+                }
+
                 if (quote) {
                     rawInv.currentPrice = quote.regularMarketPrice || inv.buyPrice;
                     rawInv.name = quote.longName || quote.shortName || inv.name;

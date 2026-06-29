@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaPlus, FaTrash, FaReceipt, FaUtensils, FaCar, FaBolt, FaGamepad, FaHeartbeat, FaShoppingBag, FaEllipsisH, FaSpinner, FaChartLine, FaRegCalendarAlt, FaShieldAlt } from 'react-icons/fa';
+import { FaPlus, FaTrash, FaReceipt, FaUtensils, FaCar, FaBolt, FaGamepad, FaHeartbeat, FaShoppingBag, FaEllipsisH, FaSpinner, FaChartLine, FaRegCalendarAlt, FaShieldAlt, FaDownload } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import BillScanner from '../components/BillScanner';
 import { useCurrency } from '../context/CurrencyContext';
@@ -129,6 +129,32 @@ const Expenses = () => {
             date: new Date(e.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
             amount: e.amount
         }));
+
+    const downloadCSV = () => {
+        const headers = ['Description', 'Category', 'Date', 'Method', 'Type', 'Amount'];
+        const csvRows = [headers.join(',')];
+
+        for (const exp of expenses) {
+            const row = [
+                `"${exp.title.replace(/"/g, '""')}"`,
+                `"${exp.category}"`,
+                `"${new Date(exp.date).toLocaleDateString()}"`,
+                `"${exp.paymentMethod || 'Cash'}"`,
+                `"${exp.isDiscretionary ? 'Discretionary' : 'Essential'}"`,
+                `"${exp.amount}"`
+            ];
+            csvRows.push(row.join(','));
+        }
+
+        const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `expenses_report_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -334,9 +360,21 @@ const Expenses = () => {
 
             {/* List Card */}
             <motion.div variants={itemVariants} className="premium-card">
-                <h3 className="text-base font-bold text-slate-900 mb-5 font-sans border-b border-slate-100 pb-3">
-                    Recent Transactions
-                </h3>
+                <div className="flex items-center justify-between mb-5 border-b border-slate-100 pb-3">
+                    <h3 className="text-base font-bold text-slate-900 font-sans">
+                        Recent Transactions
+                    </h3>
+                    {expenses.length > 0 && (
+                        <button 
+                            onClick={downloadCSV}
+                            className="px-3 py-1.5 border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all active:scale-95"
+                            title="Download all transactions as CSV"
+                        >
+                            <FaDownload className="text-xs" />
+                            <span>Download CSV</span>
+                        </button>
+                    )}
+                </div>
                 
                 {isLoading ? (
                     <div className="py-12 flex justify-center">

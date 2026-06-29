@@ -28,6 +28,7 @@ const Navbar = () => {
             <nav className="hidden md:block sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                     <Link to="/" className="flex items-center gap-2">
+                        <img src="/logo.jpg" alt="FinSight AI Logo" className="w-8 h-8 rounded-lg object-contain" />
                         <span className="text-xl font-bold font-sans tracking-tight text-slate-900 flex items-center gap-1.5">
                             FinSight<span className="px-1.5 py-0.5 text-[10px] font-semibold bg-primary-600 text-white rounded-md tracking-wider uppercase">AI</span>
                         </span>
@@ -70,7 +71,8 @@ const Navbar = () => {
 
             {/* Mobile Top Header */}
             <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white/90 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-6 z-50 shadow-sm">
-                <Link to="/" className="flex items-center gap-1">
+                <Link to="/" className="flex items-center gap-1.5">
+                    <img src="/logo.jpg" alt="FinSight AI Logo" className="w-6 h-6 rounded-md object-contain" />
                     <span className="text-base font-bold font-sans tracking-tight text-slate-900 flex items-center gap-1">
                         FinSight<span className="px-1.5 py-0.5 text-[8px] font-semibold bg-primary-600 text-white rounded-md tracking-wider uppercase">AI</span>
                     </span>

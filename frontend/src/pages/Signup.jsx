@@ -95,7 +95,10 @@ const Signup = () => {
                 className="w-full max-w-lg z-10 my-8"
             >
                 <div className="bg-white border border-slate-200/80 rounded-3xl p-8 md:p-10 shadow-premium">
-                    <motion.div variants={itemVariants} className="text-center mb-8">
+                    <motion.div variants={itemVariants} className="text-center mb-6">
+                        <div className="flex justify-center mb-4">
+                            <img src="/logo.jpg" alt="FinSight AI Logo" className="w-16 h-16 rounded-2xl object-contain shadow-sm border border-slate-100/80" />
+                        </div>
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary-50 text-primary-700 border border-primary-100/50 mb-3">
                             FinSight AI Platform
                         </span>
@@ -118,7 +121,7 @@ const Signup = () => {
                                     value={name}
                                     onChange={onChange}
                                     required
-                                    placeholder="John Doe"
+                                    placeholder="Enter full name"
                                     className="premium-input"
                                     style={{ paddingLeft: '2.75rem' }}
                                 />
@@ -135,7 +138,7 @@ const Signup = () => {
                                     value={mobile}
                                     onChange={onChange}
                                     required
-                                    placeholder="+91 99999 99999"
+                                    placeholder="Enter mobile number"
                                     className="premium-input"
                                     style={{ paddingLeft: '2.75rem' }}
                                 />
@@ -152,7 +155,7 @@ const Signup = () => {
                                     value={email}
                                     onChange={onChange}
                                     required
-                                    placeholder="john@example.com"
+                                    placeholder="Enter email address"
                                     className="premium-input"
                                     style={{ paddingLeft: '2.75rem' }}
                                 />
@@ -169,7 +172,7 @@ const Signup = () => {
                                     value={username}
                                     onChange={onChange}
                                     required
-                                    placeholder="johndoe12"
+                                    placeholder="Enter username"
                                     className="premium-input"
                                     style={{ paddingLeft: '2.75rem' }}
                                 />
@@ -186,7 +189,7 @@ const Signup = () => {
                                     value={password}
                                     onChange={onChange}
                                     required
-                                    placeholder="Create password"
+                                    placeholder="Enter password"
                                     className="premium-input text-xs"
                                     style={{ paddingLeft: '2.75rem' }}
                                 />

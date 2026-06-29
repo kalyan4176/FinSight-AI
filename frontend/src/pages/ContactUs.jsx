@@ -85,7 +85,7 @@ const ContactUs = () => {
                                 value={name}
                                 onChange={onChange}
                                 required
-                                placeholder="John Doe" 
+                                placeholder="Enter full name" 
                                 className="premium-input"
                                 style={{ paddingLeft: '2.75rem' }}
                             />
@@ -102,7 +102,7 @@ const ContactUs = () => {
                                 value={email}
                                 onChange={onChange}
                                 required
-                                placeholder="john@example.com" 
+                                placeholder="Enter email address" 
                                 className="premium-input"
                                 style={{ paddingLeft: '2.75rem' }}
                             />

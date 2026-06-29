@@ -160,7 +160,7 @@ const Dashboard = () => {
             {aiInsights.insights.length > 0 && (
                 <motion.div 
                     variants={itemVariants} 
-                    className="premium-card bg-gradient-to-r from-primary-50 to-indigo-50/50 border border-primary-200/30 flex flex-col md:flex-row gap-6 p-6 items-start md:items-center justify-between"
+                    className="premium-card bg-gradient-to-r from-primary-50 to-teal-50/20 border border-primary-200/30 flex flex-col md:flex-row gap-6 p-6 items-start md:items-center justify-between"
                 >
                     <div className="flex items-start gap-4 flex-1">
                         <div className="p-3 bg-primary-600 text-white rounded-2xl shadow-sm mt-0.5 md:mt-0">
